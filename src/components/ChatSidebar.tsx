@@ -3,7 +3,14 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Plus, MessageSquare, Trash2, Settings, X, User } from 'lucide-react';
-import { Chat, User as UserType } from '@/pages/Index';
+import { Chat } from '@/hooks/useChats';
+
+interface Profile {
+  id: string;
+  name: string;
+  created_at: string;
+  updated_at: string;
+}
 
 interface ChatSidebarProps {
   chats: Chat[];
@@ -11,7 +18,7 @@ interface ChatSidebarProps {
   onChatSelect: (chatId: string) => void;
   onNewChat: () => void;
   onDeleteChat: (chatId: string) => void;
-  user: UserType;
+  user: Profile;
   isOpen: boolean;
   onClose: () => void;
   onSettingsClick: () => void;
@@ -118,7 +125,7 @@ const ChatSidebar = ({
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-                <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                <p className="text-xs text-gray-500 truncate">Authenticated User</p>
               </div>
             </div>
             <Button

@@ -1,69 +1,41 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useAuth, AuthProvider } from '@/hooks/useAuth';
 import AuthContainer from '@/components/AuthContainer';
 import ChatContainer from '@/components/ChatContainer';
+import SecurityHeaders from '@/components/SecurityHeaders';
 
-export interface User {
-  email: string;
-  name: string;
-  password: string;
-}
+const IndexContent = () => {
+  const { user, loading } = useAuth();
 
-export interface Message {
-  id: string;
-  text: string;
-  sender: 'user' | 'ai';
-  timestamp: Date;
-}
-
-export interface Chat {
-  id: string;
-  title: string;
-  messages: Message[];
-  lastActivity: Date;
-}
-
-const Index = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [users, setUsers] = useState<Record<string, User>>({
-    'user1@example.com': { email: 'user1@example.com', password: 'password1', name: 'User One' },
-    'user2@example.com': { email: 'user2@example.com', password: 'password2', name: 'User Two' }
-  });
-
-  const handleLogin = (email: string, password: string): boolean => {
-    const user = users[email];
-    if (user && user.password === password) {
-      setCurrentUser(user);
-      setIsAuthenticated(true);
-      return true;
-    }
-    return false;
-  };
-
-  const handleSignup = (name: string, email: string, password: string): boolean => {
-    if (users[email]) {
-      return false; // User already exists
-    }
-    
-    const newUser: User = { email, name, password };
-    setUsers(prev => ({ ...prev, [email]: newUser }));
-    return true;
-  };
-
-  const handleLogout = () => {
-    setCurrentUser(null);
-    setIsAuthenticated(false);
-  };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50">
-      {!isAuthenticated ? (
-        <AuthContainer onLogin={handleLogin} onSignup={handleSignup} />
+      <SecurityHeaders />
+      {!user ? (
+        <AuthContainer />
       ) : (
-        <ChatContainer user={currentUser!} onLogout={handleLogout} />
+        <ChatContainer />
       )}
     </div>
+  );
+};
+
+const Index = () => {
+  return (
+    <AuthProvider>
+      <IndexContent />
+    </AuthProvider>
   );
 };
 
