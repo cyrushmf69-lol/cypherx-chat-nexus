@@ -119,16 +119,21 @@ const CypherXChatPage = ({ onToggleSidebar, onSettingsClick }: CypherXChatPagePr
   return (
     <div className="flex-1 flex flex-col h-screen">
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 flex items-center justify-between shadow-lg">
+      <div className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white p-4 flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={onToggleSidebar} 
-            className="text-white rounded-sm bg-zinc-500 hover:bg-zinc-400"
+            className="text-white rounded-sm bg-gray-700 hover:bg-gray-600"
           >
             <Menu className="h-5 w-5" />
           </Button>
+          <img 
+            src="/lovable-uploads/f1cad4d4-99da-4ff0-a1b8-879d0aa6a3f5.png" 
+            alt="CypherX" 
+            className="w-8 h-8"
+          />
           <div>
             <h1 className="font-semibold text-lg">CypherX Chat</h1>
             <p className="text-sm opacity-90">AI Assistant - {mode} mode</p>
@@ -165,7 +170,7 @@ const CypherXChatPage = ({ onToggleSidebar, onSettingsClick }: CypherXChatPagePr
       </div>
 
       {/* Messages Area */}
-      <ScrollArea className="flex-1 p-4" ref={scrollAreaRef}>
+      <ScrollArea className="flex-1 p-4 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900" ref={scrollAreaRef}>
         <div className="space-y-4 max-w-4xl mx-auto">
           {messages.map((msg, index) => (
             <CypherXMessage 
@@ -185,12 +190,12 @@ const CypherXChatPage = ({ onToggleSidebar, onSettingsClick }: CypherXChatPagePr
           ))}
           {loading && (
             <div className="flex justify-start mb-4">
-              <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-sm flex items-center gap-3 mr-12">
+              <div className="bg-gray-800 border border-cyan-700 rounded-lg p-3 shadow-sm flex items-center gap-3 mr-12">
                 <span className="text-xl">🧠</span>
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"></div>
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
             </div>
@@ -200,13 +205,13 @@ const CypherXChatPage = ({ onToggleSidebar, onSettingsClick }: CypherXChatPagePr
       </ScrollArea>
 
       {/* Input Area */}
-      <div className="p-4 border-t bg-white">
+      <div className="p-4 border-t border-cyan-700 bg-gray-900">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-end gap-3">
             <Button 
               variant="outline" 
               size="sm" 
-              className="h-10 w-10 p-0 rounded-full border-gray-300"
+              className="h-10 w-10 p-0 rounded-full border-cyan-600 text-cyan-100 hover:bg-cyan-900"
               disabled={loading}
             >
               <Plus className="h-4 w-4" />
@@ -217,20 +222,20 @@ const CypherXChatPage = ({ onToggleSidebar, onSettingsClick }: CypherXChatPagePr
                 onChange={(e) => setCurrentInput(e.target.value)} 
                 onKeyPress={handleKeyPress} 
                 placeholder="Type a message to CypherX..." 
-                className="flex-1 rounded-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-4 py-3 h-12" 
+                className="flex-1 rounded-full border-cyan-600 focus:border-cyan-400 focus:ring-cyan-400 px-4 py-3 h-12 bg-gray-800 text-cyan-100 placeholder-cyan-300" 
                 disabled={loading}
                 maxLength={4000}
               />
               <Button 
                 onClick={handleSend} 
                 disabled={!currentInput.trim() || loading} 
-                className="h-12 w-12 p-0 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"
+                className="h-12 w-12 p-0 rounded-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700"
               >
                 <Send className="h-4 w-4" />
               </Button>
             </div>
           </div>
-          <div className="text-xs text-gray-500 mt-2 text-center">
+          <div className="text-xs text-cyan-300 mt-2 text-center">
             {currentInput.length}/4000 characters • {mode} mode
           </div>
         </div>
