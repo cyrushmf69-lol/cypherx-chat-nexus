@@ -45,7 +45,7 @@ const ChatHeader = ({ onToggleSidebar, onSettingsClick, mode, setMode }: ChatHea
         />
         <div>
           <h1 className="font-bold text-xl text-cyan-100">Cypher-X</h1>
-          <p className="text-sm text-cyan-300">Ultimate AI • {mode} mode • No Limits</p>
+          <p className="text-sm text-cyan-300">a next gen smart-AI by cyrushmf69</p>
         </div>
       </div>
       <div className="flex items-center gap-2">
