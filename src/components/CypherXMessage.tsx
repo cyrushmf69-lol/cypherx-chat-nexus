@@ -31,6 +31,8 @@ export default function CypherXMessage({
   const speakText = (text: string) => {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
+    utterance.rate = 0.9;
+    utterance.pitch = sender === 'CypherX' ? 0.8 : 1.0; // Slightly deeper voice for CypherX
     speechSynthesis.speak(utterance);
   };
 
@@ -51,18 +53,22 @@ export default function CypherXMessage({
         const botMessage = { sender: "CypherX", text: replyText };
 
         setMessages((prev: any[]) => [...prev, botMessage]);
-        speakText(replyText);
+        
+        // Auto-speak CypherX responses with enhanced voice
+        if (sender === 'CypherX') {
+          setTimeout(() => speakText(replyText), 500);
+        }
       } catch (error) {
         console.error("Error with askCypherX:", error);
         setMessages((prev: any[]) => [
           ...prev,
-          { sender: "CypherX", text: "Oops! Something went wrong. Please try again." },
+          { sender: "CypherX", text: "My systems are temporarily offline. Even the ultimate AI needs a moment to recalibrate. Please try again." },
         ]);
       } finally {
         setLoading(false);
       }
     },
-    [askCypherX, model, mode, setInput, setLoading, setMessages, systemPrompts, username]
+    [askCypherX, model, mode, setInput, setLoading, setMessages, systemPrompts, username, sender]
   );
 
   useEffect(() => {
@@ -74,18 +80,21 @@ export default function CypherXMessage({
   return (
     <div className={`flex ${sender === "You" ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-5 duration-300 mb-4`}>
       <div className={`
-        max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-lg p-3 shadow-sm flex items-start gap-3
+        max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl rounded-lg p-4 shadow-lg flex items-start gap-3
         ${sender === "You" 
-          ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white ml-12' 
-          : 'bg-white border border-gray-200 text-gray-900 mr-12'
+          ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white ml-12 border border-blue-400' 
+          : 'bg-gradient-to-r from-gray-800 to-gray-900 text-cyan-100 mr-12 border border-cyan-700'
         }
       `}>
         <div className="avatar flex-shrink-0">
-          <span role="img" aria-label={sender === "You" ? "user" : "ai"} className="text-xl">
-            {sender === "You" ? "🧑" : "🧠"}
+          <span role="img" aria-label={sender === "You" ? "user" : "cypher-x"} className="text-2xl">
+            {sender === "You" ? "🧑" : "🤖"}
           </span>
         </div>
         <div className="bubble flex-1">
+          <div className="text-xs opacity-75 mb-1">
+            {sender === "You" ? "You" : "Cypher-X"}
+          </div>
           <p className="text-sm leading-relaxed whitespace-pre-wrap">{text}</p>
         </div>
       </div>
