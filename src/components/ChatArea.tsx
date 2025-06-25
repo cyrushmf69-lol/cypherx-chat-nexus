@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Menu, Settings, Send, Plus } from 'lucide-react';
-import { Chat } from '@/hooks/useChats';
+import { Chat } from '@/types/chat';
 import MessageBubble from './MessageBubble';
 import LoadingIndicator from './LoadingIndicator';
 import { validateMessageLength, messageRateLimiter } from '@/utils/security';

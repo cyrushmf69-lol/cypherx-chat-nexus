@@ -3,7 +3,12 @@ import React from 'react';
 import { Message } from '@/types/chat';
 
 interface MessageBubbleProps {
-  message: Message;
+  message: {
+    id: string;
+    text: string;
+    sender: 'user' | 'ai';
+    timestamp: Date;
+  };
 }
 
 const MessageBubble = ({ message }: MessageBubbleProps) => {

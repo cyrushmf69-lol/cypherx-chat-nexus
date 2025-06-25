@@ -260,3 +260,6 @@ export const useChats = () => {
     fetchChats
   };
 };
+
+// Export the types for use in other components
+export type { Message, Chat };

@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Plus, MessageSquare, Trash2, Settings, X, User } from 'lucide-react';
-import { Chat } from '@/hooks/useChats';
+import { Chat } from '@/types/chat';
 
 interface Profile {
   id: string;
