@@ -4,21 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from '@/hooks/use-toast';
 import { sanitizeMessage } from '@/utils/security';
-
-export interface Message {
-  id: string;
-  content: string;
-  sender: 'user' | 'ai';
-  created_at: string;
-}
-
-export interface Chat {
-  id: string;
-  title: string;
-  created_at: string;
-  updated_at: string;
-  messages: Message[];
-}
+import { Message, Chat } from '@/types/chat';
 
 export const useChats = () => {
   const { user } = useAuth();
@@ -56,7 +42,7 @@ export const useChats = () => {
       }
 
       const chatsWithMessages = await Promise.all(
-        chatsData.map(async (chat) => {
+        (chatsData || []).map(async (chat) => {
           const { data: messagesData, error: messagesError } = await supabase
             .from('messages')
             .select('*')
@@ -65,10 +51,29 @@ export const useChats = () => {
 
           if (messagesError) {
             console.error('Error fetching messages:', messagesError);
-            return { ...chat, messages: [] };
+            return { 
+              ...chat, 
+              messages: [] as Message[],
+              created_at: chat.created_at || new Date().toISOString(),
+              updated_at: chat.updated_at || new Date().toISOString()
+            };
           }
 
-          return { ...chat, messages: messagesData || [] };
+          const formattedMessages: Message[] = (messagesData || []).map(msg => ({
+            id: msg.id,
+            content: msg.content,
+            sender: msg.sender as 'user' | 'ai',
+            created_at: msg.created_at || new Date().toISOString(),
+            chat_id: msg.chat_id,
+            user_id: msg.user_id
+          }));
+
+          return { 
+            ...chat, 
+            messages: formattedMessages,
+            created_at: chat.created_at || new Date().toISOString(),
+            updated_at: chat.updated_at || new Date().toISOString()
+          };
         })
       );
 

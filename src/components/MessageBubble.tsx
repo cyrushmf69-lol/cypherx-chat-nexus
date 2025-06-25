@@ -1,5 +1,6 @@
 
-import { Message } from '@/pages/Index';
+import React from 'react';
+import { Message } from '@/types/chat';
 
 interface MessageBubbleProps {
   message: Message;
